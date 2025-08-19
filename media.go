@@ -232,20 +232,19 @@ var rtpBufPool = &sync.Pool{
 
 // ReadRTP reads data from network and parses to pkt
 // buffer is passed in order to avoid extra allocs
-func (m *MediaSession) ReadRTPFrom(buf []byte, addr *net.Addr, pkt *rtp.Packet) error {
+func (m *MediaSession) ReadRTPFrom(buf []byte, pkt *rtp.Packet) (*net.Addr, error) {
 	if len(buf) < RTPBufSize {
-		return io.ErrShortBuffer
+		return nil, io.ErrShortBuffer
 	}
 
 	n, addrFrom, err := m.ReadRTPRaw(buf)
-	addr = addrFrom
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if err := RTPUnmarshal(buf[:n], pkt); err != nil {
-		return err
+		return nil, err
 	}
 
 	// Problem is that this buffer is refferenced in rtp PACKET
@@ -256,7 +255,7 @@ func (m *MediaSession) ReadRTPFrom(buf []byte, addr *net.Addr, pkt *rtp.Packet) 
 	if RTPDebug {
 		m.log.Debug().Msgf("Recv RTP\n%s", pkt.String())
 	}
-	return err
+	return addrFrom, err
 }
 
 // ReadRTP reads data from network and parses to pkt
