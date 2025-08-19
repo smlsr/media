@@ -1,4 +1,4 @@
-module github.com/emiago/media
+module github.com/smlr/media
 
 go 1.21
 
