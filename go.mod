@@ -4,7 +4,6 @@ go 1.21
 
 toolchain go1.21.5
 
-replace github.com/smlsr/media => github.com/emiago/media v0.0.0-20250819155454-6bfefff006cb
 replace github.com/smlsr/sipgo => github.com/emiago/sipgo v0.22.0
 
 require (
