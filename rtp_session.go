@@ -179,7 +179,7 @@ func (s *RTPSession) ReadRTP(b []byte, readPkt *rtp.Packet) error {
 	return nil
 }
 
-func (s *RTPSession) ReadRTPRaw(buf []byte) (int, error) {
+func (s *RTPSession) ReadRTPRaw(buf []byte) (int, net.Addr, error) {
 	// In this case just proxy RTP. RTP Session can not work without full RTP decoded
 	// It is expected that RTCP is also proxied
 	return s.Sess.ReadRTPRaw(buf)

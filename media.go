@@ -232,12 +232,39 @@ var rtpBufPool = &sync.Pool{
 
 // ReadRTP reads data from network and parses to pkt
 // buffer is passed in order to avoid extra allocs
+func (m *MediaSession) ReadRTPFrom(buf []byte, addr net.Addr, pkt *rtp.Packet) error {
+	if len(buf) < RTPBufSize {
+		return io.ErrShortBuffer
+	}
+
+	n, addr, err := m.ReadRTPRaw(buf)
+	if err != nil {
+		return err
+	}
+
+	if err := RTPUnmarshal(buf[:n], pkt); err != nil {
+		return err
+	}
+
+	// Problem is that this buffer is refferenced in rtp PACKET
+	// if err := pkt.Unmarshal(buf[:n]); err != nil {
+	// 	return err
+	// }
+
+	if RTPDebug {
+		m.log.Debug().Msgf("Recv RTP\n%s", pkt.String())
+	}
+	return err
+}
+
+// ReadRTP reads data from network and parses to pkt
+// buffer is passed in order to avoid extra allocs
 func (m *MediaSession) ReadRTP(buf []byte, pkt *rtp.Packet) error {
 	if len(buf) < RTPBufSize {
 		return io.ErrShortBuffer
 	}
 
-	n, err := m.ReadRTPRaw(buf)
+	n, _, err := m.ReadRTPRaw(buf)
 	if err != nil {
 		return err
 	}
@@ -263,7 +290,7 @@ func (m *MediaSession) readRTPParsed() (rtp.Packet, error) {
 
 	buf := make([]byte, 1600)
 
-	n, err := m.ReadRTPRaw(buf)
+	n, _, err := m.ReadRTPRaw(buf)
 	if err != nil {
 		return p, err
 	}
@@ -285,12 +312,12 @@ func (m *MediaSession) readRTPParsed() (rtp.Packet, error) {
 // 	return m.ReadRTP()
 // }
 
-func (m *MediaSession) ReadRTPRaw(buf []byte) (int, error) {
-	n, _, err := m.rtpConn.ReadFrom(buf)
-	return n, err
+func (m *MediaSession) ReadRTPRaw(buf []byte) (int, net.Addr, error) {
+	n, addr, err := m.rtpConn.ReadFrom(buf)
+	return n, addr, err
 }
 
-func (m *MediaSession) ReadRTPRawDeadline(buf []byte, t time.Time) (int, error) {
+func (m *MediaSession) ReadRTPRawDeadline(buf []byte, t time.Time) (int, net.Addr, error) {
 	m.rtpConn.SetReadDeadline(t)
 	return m.ReadRTPRaw(buf)
 }
