@@ -6,10 +6,10 @@ import (
 	"net"
 	"testing"
 
-	"github.com/emiago/media/sdp"
 	"github.com/emiago/sipgo/fakes"
 	"github.com/pion/rtp"
 	"github.com/rs/zerolog/log"
+	"github.com/smlsr/media/sdp"
 	"github.com/stretchr/testify/require"
 )
 

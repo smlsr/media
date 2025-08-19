@@ -9,11 +9,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/emiago/media/sdp"
 	"github.com/pion/rtcp"
 	"github.com/pion/rtp"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"github.com/smlsr/media/sdp"
 )
 
 var (

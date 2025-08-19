@@ -6,8 +6,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/emiago/media/sdp"
 	"github.com/emiago/sipgo/fakes"
+	"github.com/smlsr/media/sdp"
 	"github.com/stretchr/testify/require"
 )
 

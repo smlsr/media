@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/emiago/media/sdp"
 	"github.com/rs/zerolog/log"
+	"github.com/smlsr/media/sdp"
 )
 
 var (

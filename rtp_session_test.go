@@ -7,10 +7,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/emiago/media/sdp"
 	"github.com/emiago/sipgo/fakes"
 	"github.com/pion/rtcp"
 	"github.com/rs/zerolog/log"
+	"github.com/smlsr/media/sdp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

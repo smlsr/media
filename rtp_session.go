@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/emiago/media/sdp"
 	"github.com/pion/rtcp"
 	"github.com/pion/rtp"
 	"github.com/rs/zerolog"
+	"github.com/smlsr/media/sdp"
 )
 
 // RTP session is RTP ReadWriter with control (RTCP) reporting
