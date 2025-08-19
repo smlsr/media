@@ -1,10 +1,10 @@
-module github.com/smlr/media
+module github.com/smlsr/media
 
 go 1.21
 
 toolchain go1.21.5
 
-replace github.com/emiago/sipgo v0.22.0 => github.com/smlsr/sipgo v0.0.99
+// replace github.com/emiago/sipgo v0.22.0 => github.com/smlsr/sipgo v0.0.99
 
 require (
 	github.com/emiago/sipgo v0.22.0
