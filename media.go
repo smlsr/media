@@ -237,7 +237,9 @@ func (m *MediaSession) ReadRTPFrom(buf []byte, addr *net.Addr, pkt *rtp.Packet) 
 		return io.ErrShortBuffer
 	}
 
-	n, addr, err := m.ReadRTPRaw(buf)
+	n, addrFrom, err := m.ReadRTPRaw(buf)
+	addr = addrFrom
+
 	if err != nil {
 		return err
 	}
@@ -314,10 +316,10 @@ func (m *MediaSession) readRTPParsed() (rtp.Packet, error) {
 
 func (m *MediaSession) ReadRTPRaw(buf []byte) (int, *net.Addr, error) {
 	n, addr, err := m.rtpConn.ReadFrom(buf)
-	return n, addr, err
+	return n, &addr, err
 }
 
-func (m *MediaSession) ReadRTPRawDeadline(buf []byte, t time.Time) (int, net.Addr, error) {
+func (m *MediaSession) ReadRTPRawDeadline(buf []byte, t time.Time) (int, *net.Addr, error) {
 	m.rtpConn.SetReadDeadline(t)
 	return m.ReadRTPRaw(buf)
 }
