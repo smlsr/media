@@ -232,7 +232,7 @@ var rtpBufPool = &sync.Pool{
 
 // ReadRTP reads data from network and parses to pkt
 // buffer is passed in order to avoid extra allocs
-func (m *MediaSession) ReadRTPFrom(buf []byte, addr net.Addr, pkt *rtp.Packet) error {
+func (m *MediaSession) ReadRTPFrom(buf []byte, addr *net.Addr, pkt *rtp.Packet) error {
 	if len(buf) < RTPBufSize {
 		return io.ErrShortBuffer
 	}
@@ -312,7 +312,7 @@ func (m *MediaSession) readRTPParsed() (rtp.Packet, error) {
 // 	return m.ReadRTP()
 // }
 
-func (m *MediaSession) ReadRTPRaw(buf []byte) (int, net.Addr, error) {
+func (m *MediaSession) ReadRTPRaw(buf []byte) (int, *net.Addr, error) {
 	n, addr, err := m.rtpConn.ReadFrom(buf)
 	return n, addr, err
 }
